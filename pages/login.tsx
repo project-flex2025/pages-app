@@ -36,9 +36,15 @@ export default function Login({ csrfToken }: LoginProps) {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-dark">
-      <div className="card p-4" style={{ width: "100%", maxWidth: "400px" }}>
-        <h2 className="text-center mb-4">Login</h2>
+    <div
+      className="d-flex justify-content-center align-items-center min-vh-100"
+      style={{ backgroundColor: "#121212" }}
+    >
+      <div
+        className="card bg-dark text-white p-4 shadow-lg"
+        style={{ width: "100%", maxWidth: "400px" }}
+      >
+        <h2 className="text-center mb-4">Sign In</h2>
         <form onSubmit={handleSubmit}>
           <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
 
@@ -49,7 +55,7 @@ export default function Login({ csrfToken }: LoginProps) {
             <input
               id="username"
               type="text"
-              className="form-control"
+              className="form-control bg-dark text-white border-secondary"
               value={credential}
               onChange={(e) => setCredential(e.target.value)}
               required
@@ -63,18 +69,22 @@ export default function Login({ csrfToken }: LoginProps) {
             <input
               id="password"
               type="password"
-              className="form-control"
+              className="form-control bg-dark text-white border-secondary"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
-          {errorMsg && <div className="alert alert-danger">{errorMsg}</div>}
+          {errorMsg && (
+            <div className="alert alert-danger py-2 text-center">
+              {errorMsg}
+            </div>
+          )}
 
           <button
             type="submit"
-            className="btn btn-primary w-100"
+            className="btn btn-outline-light w-100"
             disabled={isLoading}
           >
             {isLoading ? "Signing in..." : "Sign In"}
