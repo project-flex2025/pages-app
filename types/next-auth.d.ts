@@ -3,24 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 import { JWT } from "next-auth/jwt";
 
-export interface CustomUser {
-  id: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-  token: string;
-}
-
-export interface ExtendedSession {
-  user: {
-    id?: string;
-    name?: string | null;
-    email?: string | null;
-    token?: string;
-    image?: string | null;
-  };
-}
-
 const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -39,7 +21,7 @@ const authOptions: NextAuthOptions = {
               action: "login",
               credential: credentials.username,
               password: credentials.password,
-              device_id: "device_unique_id", // optionally replace with actual value
+              device_id: "device_unique_id",
               app_secret: process.env.APP_SECRET,
             },
             {
@@ -51,11 +33,11 @@ const authOptions: NextAuthOptions = {
 
           if (user?.token) {
             return {
-              id: user.id,
+              id: user.user_id,
               name: user.name ?? null,
               email: user.email ?? null,
               token: user.token,
-            } satisfies CustomUser;
+            };
           }
 
           return null;
@@ -68,13 +50,7 @@ const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({
-      token,
-      user,
-    }: {
-      token: JWT;
-      user?: CustomUser;
-    }): Promise<JWT> {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.token = user.token;
@@ -84,16 +60,10 @@ const authOptions: NextAuthOptions = {
       return token;
     },
 
-    async session({
-      session,
-      token,
-    }: {
-      session: ExtendedSession;
-      token: JWT;
-    }): Promise<ExtendedSession> {
+    async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string;
-        session.user.token = token.token as string;
+        session.user.id = token.id;
+        session.user.token = token.token;
         session.user.name = token.name;
         session.user.email = token.email;
       }
