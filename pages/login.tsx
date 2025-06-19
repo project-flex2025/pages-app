@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 type LoginProps = {
-  csrfToken: string;
+  csrfToken: string | null;
 };
 
 export default function Login({ csrfToken }: LoginProps) {
@@ -35,6 +35,14 @@ export default function Login({ csrfToken }: LoginProps) {
     }
   };
 
+  if (!csrfToken) {
+    return (
+      <div className="d-flex justify-content-center align-items-center min-vh-100 bg-dark text-white">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div
       className="d-flex justify-content-center align-items-center min-vh-100"
@@ -46,7 +54,11 @@ export default function Login({ csrfToken }: LoginProps) {
       >
         <h2 className="text-center mb-4">Sign In</h2>
         <form onSubmit={handleSubmit}>
-          <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+          <input
+            name="csrfToken"
+            type="hidden"
+            defaultValue={csrfToken ?? ""}
+          />
 
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
@@ -109,7 +121,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const csrfToken = await getCsrfToken(context);
   return {
     props: {
-      csrfToken: csrfToken || "",
+      csrfToken: csrfToken ?? null,
     },
   };
 };
