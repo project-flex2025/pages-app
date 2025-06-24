@@ -1,108 +1,117 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import type { JWT } from "next-auth/jwt";
-import type { Session } from "next-auth";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { getTenantConfig, TenantConfig } from "../../../lib/getTenantConfig";
 
-// 🔒 Extend types for token and session
-declare module "next-auth/jwt" {
-  interface JWT {
-    id?: string;
-    token?: string;
-    name?: string | null;
-    email?: string | null;
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const host = req.headers.host || "";
+  const tenantConfig = getTenantConfig(host);
+
+  console.log("API Host header:", host);
+  console.log("TenantConfig loaded:", tenantConfig);
+
+  if (!tenantConfig) {
+    console.warn("No tenant config found for host:", host);
+    return res.status(403).json({ error: "Unauthorized subdomain" });
   }
-}
 
-declare module "next-auth" {
-  interface Session {
-    user?: {
-      id?: string;
-      token?: string;
-      name?: string | null;
-      email?: string | null;
-    };
-  }
-}
-
-// ✅ Define your auth options
-export const authOptions: AuthOptions = {
-  providers: [
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        credential: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" },
-      },
-      authorize: async (credentials) => {
-        if (!credentials) return null;
-
-        try {
-          const res = await fetch(process.env.AUTH_API_URL!, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              action: "login",
-              credential: credentials.credential,
-              password: credentials.password,
-              device_id: "device_id_sample",
-              app_secret: process.env.APP_SECRET,
-            }),
-          });
-
-          const data = await res.json();
-          console.log("Auth API response:", data);
-
-          if (
-            res.ok &&
-            data.status === "success" &&
-            data.user_id &&
-            data.login_token
-          ) {
-            return {
-              id: data.user_id,
-              token: data.login_token,
-              tokenExpires: data.login_token_expiration,
-            };
+  const authOptions: AuthOptions = {
+    providers: [
+      CredentialsProvider({
+        name: "Credentials",
+        credentials: {
+          credential: { label: "Username", type: "text" },
+          password: { label: "Password", type: "password" },
+        },
+        authorize: async (credentials) => {
+          if (!credentials) {
+            console.warn("No credentials provided to authorize.");
+            return null;
           }
 
-          return null;
-        } catch (err) {
-          console.error("Authorize error:", err);
-          return null;
+          // Log the credentials received
+          console.log("Authorize received credentials:", credentials);
+
+          // Log the payload to be sent to the Auth API
+          const payload = {
+            action: "login",
+            credential: credentials.credential,
+            password: credentials.password,
+            device_id: "device_id_sample",
+            app_secret: tenantConfig.FLEX_APP_SECRET,
+          };
+          console.log("Payload sent to Auth API:", payload);
+
+          try {
+            const apiRes = await fetch(tenantConfig.AUTH_API_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            // Log the raw response status
+            console.log("Auth API HTTP status:", apiRes.status);
+
+            const data = await apiRes.json();
+            console.log("Auth API response body:", data);
+
+            if (
+              apiRes.ok &&
+              data.status === "success" &&
+              data.user_id &&
+              data.login_token
+            ) {
+              console.log("Authentication successful for user:", data.user_id);
+              return {
+                id: data.user_id,
+                token: data.login_token,
+                tokenExpires: data.login_token_expiration,
+                name: data.name ?? null,
+                email: data.email ?? null,
+              };
+            }
+
+            console.warn("Authentication failed:", data);
+            return null;
+          } catch (err) {
+            console.error("Authorize error:", err);
+            return null;
+          }
+        },
+      }),
+    ],
+
+    callbacks: {
+      async jwt({ token, user }) {
+        if (user) {
+          token.id = (user as any).id;
+          token.token = (user as any).token;
+          token.name = user.name;
+          token.email = user.email;
         }
+        return token;
       },
-    }),
-  ],
 
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = (user as any).id;
-        token.token = (user as any).token;
-        token.name = user.name;
-        token.email = user.email;
-      }
-      return token;
+      async session({ session, token }) {
+        if (session.user) {
+          session.user.id = token.id as string;
+          session.user.token = token.token as string;
+          session.user.name = token.name as string | null;
+          session.user.email = token.email as string | null;
+        }
+        return session;
+      },
     },
 
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id;
-        session.user.token = token.token;
-        session.user.name = token.name;
-        session.user.email = token.email;
-      }
-      return session;
+    secret: tenantConfig.NEXTAUTH_SECRET,
+    session: {
+      strategy: "jwt",
     },
-  },
+    pages: {
+      signIn: "/login",
+    },
+    debug: true,
+  };
 
-  secret: process.env.NEXTAUTH_SECRET,
-  session: {
-    strategy: "jwt",
-  },
-  pages: {
-    signIn: "/login",
-  },
-};
-
-export default NextAuth(authOptions);
+  return await NextAuth(req, res, authOptions);
+}

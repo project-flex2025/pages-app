@@ -1,5 +1,4 @@
-// pages/dashboard.tsx
-import { getSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 export default function Dashboard() {
   const handleLogout = () => {
@@ -11,7 +10,7 @@ export default function Dashboard() {
       className="d-flex align-items-center justify-content-center"
       style={{
         minHeight: "100vh",
-        backgroundColor: "#121212", // Deep dark background
+        backgroundColor: "#121212",
         color: "white",
       }}
     >
@@ -29,11 +28,24 @@ export default function Dashboard() {
   );
 }
 
+// --- SSR: Fetch session directly from the correct host ---
 export async function getServerSideProps(context: any) {
-  const session = await getSession(context);
-  if (!session) {
+  const host = context.req.headers.host;
+  const proto = context.req.headers["x-forwarded-proto"] || "https";
+  const baseUrl = `${proto}://${host}`;
+
+  // Fetch session directly
+  const sessionRes = await fetch(`${baseUrl}/api/auth/session`, {
+    headers: {
+      cookie: context.req.headers.cookie || "",
+    },
+  });
+  const sessionJson = await sessionRes.json();
+  const isAuthenticated = !!(sessionJson && sessionJson.user);
+
+  if (!isAuthenticated) {
     return { redirect: { destination: "/login", permanent: false } };
   }
 
-  return { props: { session } };
+  return { props: { session: sessionJson } };
 }
