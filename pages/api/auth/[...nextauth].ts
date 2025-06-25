@@ -29,10 +29,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return null;
           }
 
-          // Log the credentials received
           console.log("Authorize received credentials:", credentials);
 
-          // Log the payload to be sent to the Auth API
           const payload = {
             action: "login",
             credential: credentials.credential,
@@ -49,7 +47,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               body: JSON.stringify(payload),
             });
 
-            // Log the raw response status
             console.log("Auth API HTTP status:", apiRes.status);
 
             const data = await apiRes.json();
@@ -106,6 +103,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     secret: tenantConfig.NEXTAUTH_SECRET,
     session: {
       strategy: "jwt",
+      maxAge: 60 * 1 * 1, // 4 hours
+      updateAge: 60 * 1,   // 1 hour
+    },
+    jwt: {
+      maxAge: 60 * 1 * 1, // 4 hours
     },
     pages: {
       signIn: "/login",
