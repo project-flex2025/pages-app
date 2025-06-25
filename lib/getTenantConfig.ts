@@ -24,6 +24,15 @@ async function fetchTenantsFromAPI(): Promise<any[]> {
   return json.data || [];
 }
 
+const normalizeDomain = (domain: string | null | undefined) =>
+  (domain || "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s/g, "")
+    .replace(/^www\./, "")
+    .replace(/^https?:\/\//, "")
+    .replace(/^\/|\/$/g, "");
+
 export async function getTenantConfig(host: string) {
   const now = Date.now();
   if (!cachedTenants.length || now - lastFetch > CACHE_TTL) {
@@ -31,24 +40,39 @@ export async function getTenantConfig(host: string) {
     lastFetch = now;
   }
 
-  // Normalize host (remove www., lowercase)
-  const normalizedHost = host.toLowerCase().replace(/^www\./, "");
+  const normalizedHost = normalizeDomain(host);
 
-  // Find tenant by matching NEXTAUTH_URL host, subdomain, or root domain
-  const tenant = cachedTenants.find(t => {
-    const tenantHost = t.NEXTAUTH_URL.replace(/^https?:\/\//, "").toLowerCase().replace(/\/$/, "");
-    if (normalizedHost === tenantHost) return true;
-    if (normalizedHost === `${t.record_id}.priority-hub.com`) return true;
-    // Special case: root domain
+  let matchedTenant: any = null;
+
+  for (const t of cachedTenants) {
+    const tenantHost = normalizeDomain(t.NEXTAUTH_URL);
+    const allowedDomain = t.ALLOWED_DOMAIN ? normalizeDomain(t.ALLOWED_DOMAIN) : null;
+
+    if (normalizedHost === tenantHost) {
+      matchedTenant = t;
+      break;
+    }
+    if (normalizedHost === `${t.record_id}.priority-hub.com`) {
+      matchedTenant = t;
+      break;
+    }
+    if (allowedDomain && normalizedHost === allowedDomain) {
+      matchedTenant = t;
+      break;
+    }
     if (
       (normalizedHost === "priority-hub.com" || normalizedHost === "www.priority-hub.com") &&
       t.record_id === "root"
-    ) return true;
-    return false;
-  });
+    ) {
+      matchedTenant = t;
+      break;
+    }
+  }
 
-  if (!tenant || tenant.record_status !== "active") return null;
-  return tenant;
+  if (!matchedTenant || matchedTenant.record_status !== "active") {
+    return null;
+  }
+  return matchedTenant;
 }
 
 export async function getAllowedTenants() {
@@ -57,5 +81,7 @@ export async function getAllowedTenants() {
     cachedTenants = await fetchTenantsFromAPI();
     lastFetch = now;
   }
-  return cachedTenants.filter(t => t.record_status === "active").map(t => t.record_id);
+  return cachedTenants
+    .filter(t => t.record_status === "active")
+    .map(t => t.record_id);
 }
