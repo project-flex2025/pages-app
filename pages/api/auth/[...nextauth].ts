@@ -1,11 +1,69 @@
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth, { AuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getTenantConfig, TenantConfig } from "../../../lib/getTenantConfig";
+
+interface TenantApiResponse {
+  data: any[];
+  total_results: number;
+}
+
+interface AuthApiResponse {
+  status?: string;
+  user_id?: string;
+  login_token?: string;
+  login_token_expiration?: string;
+  name?: string;
+  email?: string;
+  [key: string]: any;
+}
+
+let cachedTenants: any[] = [];
+let lastFetch = 0;
+const CACHE_TTL = 60 * 1000; // 1 minute
+
+async function fetchTenantsFromAPI(): Promise<any[]> {
+  const res = await fetch("https://e1.theflex.ai/anyapp/search/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      conditions: [{ field: "feature_name", value: "envs", search_type: "exact" }],
+      combination_type: "and",
+      limit: 10000,
+      dataset: "feature_data",
+      app_secret: process.env.TENANT_SEARCH_APP_SECRET,
+    }),
+  });
+
+  const json = (await res.json()) as TenantApiResponse;
+  return json.data || [];
+}
+
+async function getTenantConfig(host: string) {
+  const now = Date.now();
+  if (!cachedTenants.length || now - lastFetch > CACHE_TTL) {
+    cachedTenants = await fetchTenantsFromAPI();
+    lastFetch = now;
+  }
+
+  const normalizedHost = host.toLowerCase().replace(/^www\./, "");
+
+  const tenant = cachedTenants.find(t => {
+    const tenantHost = t.NEXTAUTH_URL
+      .replace(/^https?:\/\//, "")
+      .toLowerCase()
+      .replace(/\/$/, "");
+    if (normalizedHost === tenantHost) return true;
+    if (normalizedHost === `${t.record_id}.priority-hub.com`) return true;
+    return false;
+  });
+
+  if (!tenant || tenant.record_status !== "active") return null;
+  return tenant;
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const host = req.headers.host || "";
-  const tenantConfig = getTenantConfig(host);
+  const tenantConfig = await getTenantConfig(host);
 
   console.log("API Host header:", host);
   console.log("TenantConfig loaded:", tenantConfig);
@@ -23,7 +81,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           credential: { label: "Username", type: "text" },
           password: { label: "Password", type: "password" },
         },
-        authorize: async (credentials) => {
+        authorize: async (credentials): Promise<User | null> => {
           if (!credentials) {
             console.warn("No credentials provided to authorize.");
             return null;
@@ -49,22 +107,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             console.log("Auth API HTTP status:", apiRes.status);
 
-            const data = await apiRes.json();
+            const data: unknown = await apiRes.json();
             console.log("Auth API response body:", data);
 
             if (
-              apiRes.ok &&
-              data.status === "success" &&
-              data.user_id &&
-              data.login_token
+              typeof data === "object" &&
+              data !== null &&
+              (data as AuthApiResponse).status === "success" &&
+              typeof (data as AuthApiResponse).user_id === "string" &&
+              typeof (data as AuthApiResponse).login_token === "string"
             ) {
-              console.log("Authentication successful for user:", data.user_id);
+              const resp = data as AuthApiResponse;
+              console.log("Authentication successful for user:", resp.user_id);
               return {
-                id: data.user_id,
-                token: data.login_token,
-                tokenExpires: data.login_token_expiration,
-                name: data.name ?? null,
-                email: data.email ?? null,
+                id: resp.user_id as string,
+                name: resp.name ?? null,
+                email: resp.email ?? null,
               };
             }
 
@@ -82,7 +140,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       async jwt({ token, user }) {
         if (user) {
           token.id = (user as any).id;
-          token.token = (user as any).token;
           token.name = user.name;
           token.email = user.email;
         }
@@ -92,22 +149,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       async session({ session, token }) {
         if (session.user) {
           session.user.id = token.id as string;
-          session.user.token = token.token as string;
           session.user.name = token.name as string | null;
           session.user.email = token.email as string | null;
         }
         return session;
+      },
+
+      async redirect({ url, baseUrl }) {
+        // Always use the provided url for redirects (fixes subdomain issues)
+        return url;
       },
     },
 
     secret: tenantConfig.NEXTAUTH_SECRET,
     session: {
       strategy: "jwt",
-      maxAge: 60 * 1 * 1, // 4 hours
-      updateAge: 60 * 1,   // 1 hour
+      maxAge: 60 * 60 * 4, // 4 hours
+      updateAge: 60 * 60,   // 1 hour
     },
     jwt: {
-      maxAge: 60 * 1 * 1, // 4 hours
+      maxAge: 60 * 60 * 4, // 4 hours
     },
     pages: {
       signIn: "/login",

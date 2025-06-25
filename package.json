@@ -6,8 +6,7 @@
     "dev": "node server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "lint": "next lint",
-    "generate-tenants": "node scripts/generate-allowed-tenants.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",

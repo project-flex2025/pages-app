@@ -32,11 +32,16 @@ export default function Login({ csrfToken, isAuthenticated }: LoginProps) {
     setIsLoading(true);
     setErrorMsg("");
 
+    // Use absolute callbackUrl to stay on the current subdomain
+    const host = window.location.host;
+    const proto = window.location.protocol;
+    const callbackUrl = `${proto}//${host}/dashboard`;
+
     const result = await signIn("credentials", {
       redirect: false,
       credential,
       password,
-      callbackUrl: "/dashboard",
+      callbackUrl,
     });
 
     setIsLoading(false);
