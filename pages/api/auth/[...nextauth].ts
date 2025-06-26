@@ -13,11 +13,28 @@ interface AuthApiResponse {
   [key: string]: any;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const host = req.headers.host || "";
-  const tenantConfig = await getTenantConfig(host);
 
-  if (!tenantConfig) {
+  // Localhost support: use .env.local values for local dev
+  let tenantConfig;
+  if (host.includes("localhost") || host.includes("127.0.0.1")) {
+    tenantConfig = {
+      FLEX_APP_SECRET: process.env.FLEX_APP_SECRET || "local_secret",
+      AUTH_API_URL:
+        process.env.AUTH_API_URL || "http://localhost:3000/api/mock-auth",
+      NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || "local_nextauth_secret",
+      record_status: "active",
+      record_id: "local",
+    };
+  } else {
+    tenantConfig = await getTenantConfig(host);
+  }
+
+  if (!tenantConfig || tenantConfig.record_status !== "active") {
     return res.status(403).json({ error: "Unauthorized subdomain" });
   }
 
@@ -102,7 +119,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     session: {
       strategy: "jwt",
       maxAge: 60 * 60 * 4, // 4 hours
-      updateAge: 60 * 60,   // 1 hour
+      updateAge: 60 * 60, // 1 hour
     },
     jwt: {
       maxAge: 60 * 60 * 4, // 4 hours
