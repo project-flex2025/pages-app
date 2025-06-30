@@ -62,4 +62,3 @@ regions = [
 [scale]
   min = 0
   max = 3                          # Allow autoscaling up to 3 per region
-
