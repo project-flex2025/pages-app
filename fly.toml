@@ -4,41 +4,9 @@ app = "pages-app-l-ykfg"
 primary_region = "bom"
 
 regions = [
-  "mad",
-  "yul",
-  "jnb",
-  "hkg",
-  "bom",
-  "sin",
-  "syd",
-  "nrt",
-  "ams",
-  "otp",
-  "fra",
-  "lhr",
-  "cdg",
-  "arn",
-  "waw",
-  "iad",
-  "atl",
-  "bos",
-  "ord",
-  "dfw",
-  "den",
-  "gdl",
-  "lax",
-  "mia",
-  "phx",
-  "qro",
-  "sjc",
-  "sea",
-  "ewr",
-  "yyz",
-  "bog",
-  "eze",
-  "gig",
-  "scl",
-  "gru"
+  "mad", "yul", "jnb", "hkg", "bom", "sin", "syd", "nrt", "ams", "otp", "fra", "lhr",
+  "cdg", "arn", "waw", "iad", "atl", "bos", "ord", "dfw", "den", "gdl", "lax", "mia",
+  "phx", "qro", "sjc", "sea", "ewr", "yyz", "bog", "eze", "gig", "scl", "gru"
 ]
 
 [build]
@@ -54,7 +22,7 @@ regions = [
 [[vm]]
   cpu_kind = "shared"
   cpus = 1
-  memory_mb = 1024
+  memory_mb = 512
 
 [experimental]
   auto_rollback = true             # Auto rollback if a deployment fails
