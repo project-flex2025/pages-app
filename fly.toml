@@ -3,6 +3,44 @@
 app = "pages-app-l-ykfg"
 primary_region = "bom"
 
+regions = [
+  "mad",
+  "yul",
+  "jnb",
+  "hkg",
+  "bom",
+  "sin",
+  "syd",
+  "nrt",
+  "ams",
+  "otp",
+  "fra",
+  "lhr",
+  "cdg",
+  "arn",
+  "waw",
+  "iad",
+  "atl",
+  "bos",
+  "ord",
+  "dfw",
+  "den",
+  "gdl",
+  "lax",
+  "mia",
+  "phx",
+  "qro",
+  "sjc",
+  "sea",
+  "ewr",
+  "yyz",
+  "bog",
+  "eze",
+  "gig",
+  "scl",
+  "gru"
+]
+
 [build]
 
 [http_service]
