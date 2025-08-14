@@ -1,0 +1,77 @@
+{
+  "Company Name": {
+    "value": "The Flex AI",
+    "type": "text",
+    "validation": {
+      "required": true,
+      "customValidation": "lengthValidation",
+      "params": {
+        "min": 3,
+        "max": 20
+      }
+    }
+  },
+  "Brand Name": {
+    "value": "The Flex AI",
+    "type": "text",
+    "validation": {
+      "required": true,
+      "customValidation": "lengthValidation",
+      "params": {
+        "min": 3,
+        "max": 20
+      }
+    }
+  },
+  "Caption": {
+    "value": "Flex is a place where you can automatically build applications",
+    "type": "text",
+    "validation": {
+      "required": true,
+      "customValidation": "lengthValidation",
+      "params": {
+        "min": 30,
+        "max": 70
+      }
+    }
+  },
+  "Login Side Image": {
+    "value": "login_side_image.png",
+    "type": "image",
+    "validation": {
+      "required": true,
+      "customValidation": "imageValidation",
+      "params": {
+        "type": ["jpg", "png", "svg"]
+      }
+    }
+  },
+  "Company Logo": {
+    "value": "logo.png",
+    "type": "image",
+    "display_type": "rectangle",
+    "validation": {
+      "required": true,
+      "customValidation": "imageValidation",
+      "params": {
+        "type": ["jpg", "png", "svg"]
+      }
+    }
+  },
+  "Favicon": {
+    "value": "favicon.png",
+    "type": "image",
+    "display_type": "rectangle",
+    "validation": {
+      "required": true,
+      "customValidation": "imageValidation",
+      "params": {
+        "type": ["jpg", "png", "svg"]
+      }
+    }
+  },
+  "Template": {
+    "type": "template1"
+  },
+  "Theme": { "id": "theme1" }
+}

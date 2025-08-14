@@ -1,0 +1,267 @@
+.login-variant-2 .login-container {
+  background-color: var(--text-white);
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.login-variant-2 .login-container .login-section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* .login-variant-2 .login-container .logo-section {
+  margin-top: 20px;
+  margin-bottom: 45px;
+} */
+.login-variant-2 .login-container .logo-section {
+  margin-top: 0px;
+  margin-bottom: 55px;
+  margin-left: 35px;
+}
+
+.login-variant-2 .login-content-section {
+  padding-left: 100px;
+  width: 90%;
+}
+
+.login-variant-2 .login-container .login-head {
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+.login-variant-2 .login-container .login-title {
+  font-size: 16px;
+}
+
+.login-variant-2 .login-container .login-form {
+  width: 85%;
+}
+.login-variant-2 .login-container .login-form .form-label {
+  color: #999999;
+}
+
+.login-variant-2 .login-container .login-form .form-control::placeholder {
+  color: #000842;
+  font-size: 16px;
+  opacity: 1;
+}
+
+.login-variant-2 .login-container .login-form .form-control {
+  font-size: 16px;
+}
+
+.login-variant-2 .login-container .mail-section {
+  margin-top: 30px;
+}
+
+.login-variant-2 .login-container .pass-section {
+  margin-top: 30px;
+}
+
+.login-variant-2 .login-container .form-control {
+  border: none;
+}
+
+.login-variant-2 .login-container .form-control:focus {
+  box-shadow: none;
+}
+
+.login-variant-2 .login-container .input-group {
+  border-bottom: 2px solid black;
+  padding-bottom: 8px;
+}
+
+.login-variant-2 .login-container .remember-check-box input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+  margin-right: 10px;
+}
+/* Increase label font size */
+.login-variant-2 .login-container .remember-check-box label.remember {
+  font-size: 14px;
+  color: #000; /* optional: you can adjust color */
+  cursor: pointer;
+  user-select: none;
+}
+
+.login-variant-2 .login-container .forgot-password-link {
+  font-size: 14px;
+}
+
+/* Optional: align checkbox and text better */
+.login-variant-2 .login-container .remember-check-box {
+  display: flex;
+  align-items: center;
+}
+
+.login-variant-2 .login-container .input-group-text {
+  background: none;
+  border: none;
+  font-size: 16px;
+  padding: 10px 4px 10px 0px !important;
+}
+
+.login-variant-2 .login-container .login-btn {
+  background-color: var(--primary-color);
+  color: var(--text-white);
+  border-radius: 25px;
+  margin-top: 30px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.login-variant-2 .login-container .login-btn:hover {
+  background-color: var(--primary-hover);
+  color: var(--text-white);
+}
+
+.login-variant-2 .login-container .form-check-label {
+  cursor: pointer;
+}
+
+.login-variant-2 .login-container .login-img-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 610px;
+}
+
+.login-variant-2 .login-container .login-img-section .login-img {
+  width: 80%;
+  height: auto;
+}
+
+.login-variant-2 .login-right-section {
+  background-color: #000842;
+  border-radius: 20px;
+}
+
+.login-variant-2 .login-right-section .login-right-content {
+  bottom: 50px;
+  left: 80px;
+  color: var(--text-white);
+}
+
+.login-variant-2 .login-right-section .login-right-content h4 {
+  font-size: 28px;
+}
+
+@media only screen and (max-width: 992px) {
+  .login-variant-2 .login-container .login-right-section {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1400px) {
+  .login-variant-2 .login-content-section {
+    padding-left: 50px;
+    width: 100%;
+  }
+  .login-variant-2 .login-container .login-form {
+    width: 90%;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 868px) {
+  .login-variant-2 .login-content-section {
+    padding-left: 50px;
+    width: 100%;
+  }
+  .login-variant-2 .login-container .login-form {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 768px) {
+  .login-variant-2 .login-content-section {
+    padding-left: 50px;
+    width: 100%;
+  }
+  .login-variant-2 .login-container .login-form {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 425px) and (max-width: 576px) {
+  .login-variant-2 .login-content-section {
+    padding-left: 20px;
+    width: 100%;
+  }
+  .login-variant-2 .login-container .login-form {
+    width: 95%;
+  }
+}
+@media only screen and (min-width: 375px) and (max-width: 425px) {
+  .login-variant-2 .login-container {
+    background: none;
+    padding: 8px;
+    border-radius: 10px;
+  }
+
+  .login-variant-2 .login-container .login-form {
+    width: 100%;
+  }
+
+  .login-variant-2 .login-container .form-control {
+    background: none;
+  }
+
+  .login-variant-2 .login-content-section {
+    padding-left: 10px;
+    width: 100%;
+  }
+  .login-variant-2 .login-container .login-form {
+    width: 95%;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 375px) {
+  .login-variant-2 .login-container {
+    background: none;
+    padding: 8px;
+    border-radius: 10px;
+  }
+
+  .login-variant-2 .login-container .login-form {
+    width: 100%;
+  }
+
+  .login-variant-2 .login-container .login-check-section {
+    flex-direction: column;
+  }
+
+  .login-variant-2 .login-container .login-forgot {
+    margin-top: 10px;
+  }
+
+  .login-variant-2 .login-container .form-control {
+    background: none;
+  }
+
+  .login-variant-2 .login-content-section {
+    padding-left: 10px;
+    width: 100%;
+  }
+  .login-variant-2 .login-container .login-form {
+    width: 95%;
+  }
+  .login-variant-2 .login-container .remember-check-box label.remember {
+    font-size: 12px;
+    color: #000;
+    cursor: pointer;
+    user-select: none;
+  }
+  .login-variant-2 .login-container .forgot-password-link {
+    font-size: 12px;
+  }
+  .login-variant-2 .login-container .remember-check-box input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+    margin-right: 6px;
+  }
+}

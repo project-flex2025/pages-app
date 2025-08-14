@@ -1,0 +1,231 @@
+/* Board View Drag and Drop Styles */
+
+.board-view {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+.board-columns {
+  display: flex;
+  gap: 16px;
+  padding: 0 16px 50px 16px;
+  min-height: 100vh;
+  align-items: flex-start;
+  overflow-x: auto;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.board-column {
+  min-width: 300px;
+  max-width: 300px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #e9ecef;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Droppable area styling */
+.droppable-area {
+  min-height: 100px;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  border: 2px dashed transparent;
+  padding: 0;
+}
+
+.droppable-area.dragging-over {
+  background: #e8f4fd;
+  border: 2px dashed #007bff;
+  padding: 8px;
+}
+
+/* Draggable card styling */
+.board-card {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  cursor: grab;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  user-select: none;
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s;
+  transform-origin: center;
+}
+
+.board-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
+
+/* Dragging state */
+.board-card[data-rbd-draggable-context-id][data-rbd-draggable-is-dragging="true"] {
+  background: #f8f9fa;
+  border: 2px solid #007bff;
+  cursor: grabbing;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+  opacity: 0.9;
+  z-index: 1000;
+  transform: rotate(1deg) scale(1.01);
+  transition: none;
+  /* Prevent zipping behavior */
+  transform-origin: center;
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Drag handle styling */
+.drag-handle {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  opacity: 0.6;
+  cursor: grab;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.board-card:hover .drag-handle {
+  opacity: 1;
+}
+
+.board-card[data-rbd-draggable-context-id][data-rbd-draggable-is-dragging="true"] .drag-handle {
+  opacity: 1;
+  cursor: grabbing;
+}
+
+/* Delete button styling */
+.delete-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  min-width: 24px;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board-card:hover .delete-btn {
+  opacity: 1;
+}
+
+.delete-btn:hover {
+  background: rgba(234, 10, 10, 0.1);
+}
+
+/* Placeholder styling */
+[data-rbd-placeholder-context-id] {
+  min-height: 20px;
+  margin: 8px 0;
+  border-radius: 4px;
+  background: rgba(0, 123, 255, 0.1);
+  border: 2px dashed #007bff;
+  opacity: 0.6;
+}
+
+/* Smooth animations for card movement */
+/* .board-card {
+  animation: cardAppear 0.3s ease-out;
+}
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} */
+
+/* Prevent text selection during drag */
+.board-card * {
+  pointer-events: none;
+}
+
+.board-card .drag-handle,
+.board-card .delete-btn {
+  pointer-events: auto;
+}
+
+/* Improve drag performance */
+.board-card {
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  /* Prevent unwanted movements */
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Smooth animations */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent text selection during drag */
+.board-card * {
+  pointer-events: none;
+  user-select: none;
+}
+
+.board-card .drag-handle,
+.board-card .delete-btn {
+  pointer-events: auto;
+  user-select: none;
+}
+
+/* Ensure proper drag behavior */
+.board-card[data-rbd-draggable-context-id] {
+  position: relative;
+  transform-origin: center;
+}
+
+/* Prevent layout shifts during drag */
+.board-card[data-rbd-draggable-context-id][data-rbd-draggable-is-dragging="true"] {
+  position: fixed;
+  pointer-events: none;
+}
+
+.board-card[data-rbd-draggable-context-id][data-rbd-draggable-is-dragging="true"] * {
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .board-columns {
+    gap: 12px;
+    padding: 0 12px 40px 12px;
+  }
+  
+  .board-column {
+    min-width: 280px;
+    max-width: 280px;
+    padding: 12px;
+  }
+  
+  .board-card {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+} 

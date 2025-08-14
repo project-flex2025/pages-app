@@ -1,0 +1,331 @@
+/* Modal Overlay */
+.task-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  /* background: rgba(10, 12, 20, 0.85); */
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+.task-modal-content {
+  background: #22272b;
+  color: #e6e6e6;
+  border-radius: 18px;
+  /* box-shadow: 0 8px 32px rgba(0,0,0,0.45); */
+  max-width: 800px;
+  width: 100%;
+  min-width: 0;
+  max-height: 90vh;
+  min-height: 500px;
+  padding: 32px 24px 24px 24px;
+  position: relative;
+  overflow: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+@media (min-width: 768px) {
+  .task-modal-content {
+    min-width: 600px;
+  }
+}
+
+.task-modal-scroll-area {
+  max-height: 70vh;
+  overflow-y: auto;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+}
+
+.task-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  background: none;
+  border: none;
+  color: #b0b8c9;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.2s;
+}
+.task-modal-close:hover {
+  color: #fff;
+}
+
+.task-modal-left, .task-modal-right {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 24px 18px;
+}
+
+@media (max-width: 767px) {
+  .task-modal-scroll-area {
+    flex-direction: column;
+  }
+  .task-modal-left, .task-modal-right {
+    padding: 18px 6px;
+  }
+}
+
+
+.task-modal-title {
+  background: transparent;
+  border: none;
+  color: #e6e6e6;
+  font-size: 26px;
+  font-weight: 400;
+  margin-bottom: 12px;
+  width: 100%;
+  outline: none;
+}
+
+.task-modal-status-row {
+  margin-bottom: 10px;
+}
+.task-modal-status-select {
+  background: #23283a;
+  color: #fff;
+  border: 1px solid #333a4d;
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 1rem;
+}
+
+.task-modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.task-modal-actions button {
+  background: #23283a;
+  color: #e6e6e6;
+  border: 1px solid #333a4d;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.task-modal-actions button:hover {
+  background: #2d3347;
+}
+
+.task-modal-section {
+  margin-bottom: 22px;
+}
+.task-modal-section-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #b0b8c9;
+}
+.task-modal-description {
+  width: 100%;
+  min-height: 70px;
+  background: transparent;
+  color: #e6e6e6;
+  border: 1px solid #333a4d;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  resize: vertical;
+}
+
+.task-modal-checklist-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.task-modal-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: #23283a;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.task-modal-progress-bar-inner {
+  height: 100%;
+  background: #fff;
+  border-radius: 6px;
+  transition: width 0.2s;
+}
+
+.task-modal-checklist-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px 0;
+}
+.task-modal-checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.task-modal-checklist-item input[type="checkbox"] {
+  accent-color: #4f8cff;
+  width: 18px;
+  height: 18px;
+}
+.task-modal-checklist-item .checked {
+  text-decoration: line-through;
+  color: #7a859c;
+}
+.task-modal-checklist-delete {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-left: auto;
+}
+.task-modal-checklist-delete:hover {
+  text-decoration: underline;
+}
+.task-modal-checklist-add {
+  display: flex;
+  gap: 8px;
+}
+.task-modal-checklist-add input {
+  flex: 1;
+  background: transparent;
+  color: #e6e6e6;
+  border: 1px solid #333a4d;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 1rem;
+}
+.task-modal-checklist-add button {
+  background: #4f8cff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.task-modal-checklist-add button:hover {
+  background: #3570c9;
+}
+
+.task-modal-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.task-modal-right {
+  background: #161a1d;
+  border-radius: 12px;
+  padding: 24px 18px;
+  margin-left: 12px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-width: 0;
+}
+.task-modal-info {
+  font-size: 1.05rem;
+  color: #b0b8c9;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+/* Modal overlay: only blur, no color */
+.task-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(1px);
+  /* No background color! */
+}
+
+/* Checklist checkbox: transparent when not checked, colored when checked */
+.checklist-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #43aa8b;
+  background: transparent;
+  border: 1.5px solid #bbb;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.checklist-checkbox:not(:checked) {
+  background: transparent;
+  border-color: #bbb;
+}
+.checklist-checkbox:checked {
+  background: #43aa8b;
+  border-color: #43aa8b;
+}
+
+/* Checklist add button/input tweaks */
+.task-modal-checklist-add .btn-outline-primary {
+  border-radius: 6px;
+  width: 100%;
+}
+.task-modal-checklist-add input.form-control {
+  border-radius: 6px;
+}
+
+.add-item-link {
+  color: #007bff;
+  font-size: 0.95em;
+  cursor: pointer;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  transition: color 0.15s;
+}
+.add-item-link:hover, .add-item-link:focus {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.task-modal-dates-table td.date-value-cell {
+ color: #b0b8c9;
+  background: none;
+  padding-left: 14px;
+  font-weight: 500;
+  vertical-align: middle;
+}
+.task-modal-dates-table td {
+  background: none !important;
+}
+.task-modal-dates-table .date-color {
+  color: #b0b8c9;;
+}
+
+.custom-user-dropdown {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  border-radius: 10px;
+  margin-top: 6px;
+  min-width: 180px;
+  padding: 6px 0;
+  z-index: 20;
+}
+
+
+
