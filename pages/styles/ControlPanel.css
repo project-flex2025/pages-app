@@ -1,0 +1,266 @@
+.modal-sidebar {
+  padding: 20px;
+  background: var(--sidebar-gradient);
+  /* border-bottom-right-radius: 20px; */
+  /* border-radius: 20px; */
+  height: 100%;
+}
+.btn-json-save {
+  border-radius: 20px;
+}
+
+.modal-sidebar .nav .nav-link {
+  color: var(--nav-text);
+  padding: 6px;
+}
+
+.modal-sidebar .nav .nav-link.modal-active {
+  color: var(--nav-active-color);
+  font-weight: bold;
+}
+.modal-sidebar .nav .nav-link.modal-active:hover {
+  color: var(--nav-text);
+}
+
+/* ================= */
+.modal-sidebar .nav-item.active .modal-menu-item {
+  background-color: var(--nav-active-bg);
+  color: var(--nav-text);
+  border-radius: 50px;
+}
+.modal-sidebar .modal-sub-menu .nav-item.active .modal-submenu-item {
+  background-color: var(--nav-active-bg);
+  color: var(--nav-text);
+  border-radius: 50px;
+}
+.modal-sidebar .modal-sub-menu .modal-submenu-item {
+  padding-left: 10px;
+}
+
+/* ============ */
+
+.modal-sidebar-title {
+  font-size: 18px;
+  /* font-weight: bold; */
+  margin-bottom: 15px;
+}
+
+.modal-menu-item {
+  padding: 0px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-menu-item label{
+  cursor: pointer;
+}
+.modal-menu-item input{
+  cursor: pointer;
+}
+
+
+.modal-menu-item:hover {
+  background: var(--nav-active-bg);
+  color: var(--nav-text);
+  border-radius: 50px;
+}
+.modal-menu-item:hover .nav .nav-link.modal-active {
+  background: var(--nav-active-bg);
+  color: var(--nav-text);
+}
+
+.modal-sub-menu {
+  list-style-type: none;
+  padding-left: 30px;
+  margin-right: 10px;
+}
+.modal-sub-menu input {
+  cursor: pointer;
+}
+
+.modal-sub-menu .nav-item {
+  padding: 0px 10px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+.modal-sub-menu .nav-item .modal-menu-item:hover {
+  padding: 0px 10px;
+  cursor: pointer;
+  background: var(--nav-active-bg);
+  border-radius: 50px;
+}
+.modal-sub-menu .nav-item .modal-submenu-item:hover {
+  padding: 0px 10px;
+  cursor: pointer;
+  background: var(--nav-active-bg);
+  border-radius: 50px;
+}
+
+/* Main Content Styles */
+.modal-main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.modal-top-nav {
+  margin-bottom: 15px;
+}
+
+.modal-sub-nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.modal-sub-tab {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.modal-sub-active {
+  background: var(--nav-active-bg);
+  color: white;
+  border-color: #000;
+}
+
+.modal-content-box {
+  background: #f1f1f1;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* FontAwesome Icon Styles */
+.modal-dropdown-icon {
+  margin-left: 5px;
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1050;
+}
+
+.active-item {
+  background-color: var(--text-primary) !important;
+  color: var(--text-white) !important;
+}
+
+.modal-content-box {
+  background: var(--nav-active-bg);
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.feature-list {
+  border: 1px solid #000;
+  padding: 20px;
+  border-radius: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  background: #ddd;
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.feature-item:hover {
+  background: var(--text-secondary);
+}
+
+.feature-checkbox {
+  cursor: pointer;
+}
+.feature-input {
+  cursor: pointer;
+}
+.feature-label {
+  cursor: pointer;
+}
+
+.feature-label {
+  cursor: pointer;
+  color: #000;
+  font-weight: 500;
+}
+
+.message-box {
+  background: #f8f9fa;
+  border-left: 4px solid var(--text-primary);
+  color: #333;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.active-feature {
+  background-color: var(--text-primary) !important;
+  color: white !important;
+}
+
+.active-feature label {
+  background-color: var(--text-primary) !important;
+  color: white !important;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--text-primary); /* Green background when checked */
+  accent-color: var(--text-secondary); /* For modern browsers */
+}
+.control-panel label {
+  color: #000;
+}
+
+.content-box {
+  min-height: 200px;
+  border: 1px solid #000;
+  border-radius: 20px;
+}
+
+/* Add these styles to your CSS file */
+.active-path-badge {
+  font-size: 0.85rem;
+  border: 1px solid #dee2e6;
+}
+
+.modal-content-box {
+  position: relative;
+}
+
+.modal-sub-menu {
+  margin-left: 1.5rem;
+  border-left: 2px solid #dee2e6;
+  padding-left: 0px;
+}
+
+.nav-tabs .nav-link {
+  display: block;
+  padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+  font-size: var(--bs-nav-link-font-size);
+  font-weight: bold;
+  color: var(--text-primary);
+  text-decoration: none;
+  background: none;
+  border: 0;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  color: var(--bs-nav-tabs-link-active-color);
+  background-color: var(--bs-nav-tabs-link-active-bg);
+  border-color: var(--bs-nav-tabs-link-active-border-color);
+}

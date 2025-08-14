@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { GetServerSideProps } from "next";
 
-export default function Home() {
+type HomeProps = {
+  isAuthenticated: boolean;
+};
+
+export default function Home({ isAuthenticated }: HomeProps) {
   return (
     <div
       className="d-flex align-items-center justify-content-center"
@@ -22,3 +27,32 @@ export default function Home() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const host = context.req.headers.host;
+  const proto = context.req.headers["x-forwarded-proto"] || "https";
+  const baseUrl = `${proto}://${host}`;
+
+  // Fetch session
+  const sessionRes = await fetch(`${baseUrl}/api/auth/session`, {
+    headers: {
+      cookie: context.req.headers.cookie || "",
+    },
+  });
+  const sessionJson = await sessionRes.json();
+  const isAuthenticated = !!(sessionJson && sessionJson.user);
+
+  // Redirect if NOT authenticated
+  if (!isAuthenticated) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { isAuthenticated },
+  };
+};

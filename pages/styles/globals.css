@@ -1,0 +1,243 @@
+/* @import url("./css/dashboard.css"); */
+@import url("./styles.css");
+@import url("./sidebar.css");
+@import url("./wid.css");
+
+/* :root {
+  --primary-color: #38487c;
+  --primary-hover: #567029;
+  --text-primary: #38487c;
+  --text-secondary: #625f5f;
+  --text-info: #00b69b;
+  --text-danger: #f93c65;
+  --text-warning: #ff9066;
+  --text-blue: #8280ff;
+  --text-yellow: #fec53d;
+  --background-color: #f8f9fa;
+  --bg-sidebar: #38487c;
+  --background-color2: #cbcbcb96;
+  --nav-active-bg: #ffffff21;
+  --nav-active-color: #fff;
+  --header-color: #fff;
+  --bg-header: #38487c;
+  --border-color: #fff;
+  --text-light: #999999;
+  --search-bg: #fff;
+  --body-bg: #e8eff9;
+  --card-title: #000;
+  --card-value: #000;
+  --card-content: #000;
+  --card-bg: #d1d1d9b3;
+  --text-color: #000;
+  --alert-color: #000;
+  ----nav-text: #fff;
+  --input-border: #000;
+  --text-white: #fff;
+  --box-shadow: 0 0 5px rgba(106, 133, 51, 0.5);
+  --box-shadow2: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --gradient-start: #d2e4af;
+  --gradient-end: rgba(210, 228, 175, 0);
+
+  --gradient-warning1: rgba(255, 144, 102, 0.3);
+  --gradient-info1: rgba(0, 182, 155, 0.3);
+  --gradient-yellow1: rgba(254, 197, 61, 0.3);
+  --gradient-blue1: rgba(130, 128, 255, 0.3);
+
+  --login-background-color: #fff;
+
+  --pagination-active-color: #fff;
+  --pagination-active-bg: #38487c;
+  --pagination-active-border-color: #38487c;
+
+  --bs-nav-tabs-link-active-bg: #fff;
+
+  --default-text-color: #212b37;
+  --default-border: #ecf3fb;
+  --default-background: #f9fafb;
+  --chart-color: #0284c7;
+
+  --form-control-bg: #ffffff;
+  --form-select-color: "#000";
+
+  --table-head: #d7d7d7;
+
+  --card-stats-gradient: linear-gradient(
+    to bottom,
+    rgba(56, 72, 124, 0.6),
+    rgba(153, 153, 153, 0.6)
+  );
+  --primary-gradient: linear-gradient(135deg, #38487c 0%, #567029 100%);
+  --secondary-gradient: linear-gradient(
+    135deg,
+    #d2e4af 0%,
+    rgba(210, 228, 175, 0) 100%
+  );
+
+  --card-custom-bg: #fff;
+  --card-custom-bg2: #fff;
+  --card-custom-bg3: #fff;
+
+  --sidebar-gradient: #38487c;
+  --header-gradient: #38487c;
+} */
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary-color: #0c21c1;
+  --primary-hover: #0c21c1;
+  --text-primary: #0c21c1;
+  --text-secondary: #625f5f;
+  --text-info: #00b69b;
+  --text-danger: #f93c65;
+  --text-warning: #ff9066;
+  --text-blue: #8280ff;
+  --text-yellow: #fec53d;
+  --background-color: #f8f9fa;
+  --bg-sidebar: #38487c;
+  --background-color2: #f5f6fa;
+  --nav-active-bg: #f5f6fa;
+  --nav-active-color: #0c21c1;
+  --header-color: #fff;
+  --bg-header: #38487c;
+  --border-color: #fff;
+  --text-light: #999999;
+  --search-bg: #fff;
+  --body-bg: #f5f6fa;
+  --card-title: #202224;
+  --card-value: #4a4b4d;
+  --card-content: #000;
+  --card-bg: #d1d1d9b3;
+  --text-color: #000;
+  --alert-color: #000;
+  --nav-text: #64748b;
+  --input-border: #dee7f1;
+  --text-white: #fff;
+  --icon-bg-color: #e6eaf5;
+  --box-shadow: 0 0 5px rgba(106, 133, 51, 0.5);
+  --box-shadow2: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --gradient-start: #d2e4af;
+  --gradient-end: rgba(210, 228, 175, 0);
+
+  --gradient-warning1: rgba(255, 144, 102, 0.3);
+  --gradient-info1: rgba(0, 182, 155, 0.3);
+  --gradient-yellow1: rgba(254, 197, 61, 0.3);
+  --gradient-blue1: rgba(130, 128, 255, 0.3);
+
+  --login-background-color: #fff;
+
+  --pagination-active-color: #fff;
+  --pagination-active-bg: #38487c;
+  --pagination-active-border-color: #38487c;
+
+  --bs-nav-tabs-link-active-bg: #fff;
+
+  --default-text-color: #212b37;
+  --default-border: #ecf3fb;
+  --default-background: #f9fafb;
+  --chart-color: #0284c7;
+
+  --form-control-bg: #ffffff;
+  --form-select-color: "#000";
+
+  --table-head: #f1f4f9;
+  --table-hover-color: "#F5F6FA";
+
+  --card-stats-gradient: linear-gradient(
+    to bottom,
+    rgba(56, 72, 124, 0.6),
+    rgba(153, 153, 153, 0.6)
+  );
+  --primary-gradient: linear-gradient(135deg, #38487c 0%, #567029 100%);
+  --secondary-gradient: linear-gradient(
+    135deg,
+    #d2e4af 0%,
+    rgba(210, 228, 175, 0) 100%
+  );
+
+  --card-custom-bg: #fff;
+  --card-custom-bg2: #fff;
+  --card-custom-bg3: #fff;
+
+  --sidebar-gradient: #ffff;
+  --header-gradient: #ffff;
+
+  --primary-rgb: #0c21c1;
+}
+
+body {
+  background: var(--body-bg);
+  font-family: "Poppins", sans-serif;
+}
+
+.theme-buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.theme-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.theme-button:hover {
+  transform: scale(1.1);
+}
+.theme-button {
+  border: 1px solid var(--text-white);
+}
+
+.theme-button.active {
+  border: 1px solid var(--text-white);
+}
+
+.theme-icon {
+  font-size: 18px;
+}
+.breadcrumb-item.active {
+  color: var(--text-secondary);
+}
+.breadcrumb-item {
+  color: var(--text-primary);
+}
+.breadcrumb-item.active {
+  color: var(--text-secondary);
+}
+
+.breadcrumb-item {
+  color: var(--text-primary);
+}
+
+.breadcrumb-item + .breadcrumb-item:before {
+  color: var(--text-primary);
+}
+
+.table-head {
+  background-color: var(--text-primary);
+}
+
+/* Make FullCalendar week headers sharp and flat */
+.fc .fc-col-header-cell-cushion {
+  border-radius: 0 !important;
+  padding: 4px 8px; /* optional: adjust spacing */
+}
+
+/* Remove any border-radius or shadows from header cells */
+.fc .fc-col-header-cell {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
